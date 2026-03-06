@@ -1,7 +1,8 @@
 import sqlite3 as sql
+DB_PATH = "db/heladeria.db"
 
 def crearDB():
-    conn = sql.connect("db/heladeria.db")
+    conn = sql.connect(DB_PATH)
     c = conn.cursor()
     conn.executescript('''PRAGMA foreign_keys = ON;
 
