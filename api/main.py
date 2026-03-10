@@ -26,6 +26,9 @@ import sqlite3
 import sys
 import os
 
+# pydantic: librería para validación de datos
+from pydantic import BaseModel
+
 # --- Ajuste de rutas para importar desde carpetas hermanas ---
 # __file__ = ruta de este archivo (api/main.py)
 # os.path.join(..., '..') = sube un nivel → raíz del proyecto
@@ -97,3 +100,55 @@ async def starlette_exception_handler(request: Request, exc: StarletteHTTPExcept
         status_code=exc.status_code,
         content={"error": True, "detail": exc.detail, "code": exc.status_code}
     )
+
+# --- Endpoint: Obtener todos los sabores ---
+# GET /sabores → retorna todo el inventario de la base de datos
+@app.get("/sabores")
+def listar_sabores():
+    conn = get_db_connection()
+    sabores = conn.execute("SELECT * FROM sabores").fetchall()
+    conn.close()
+    return {"inventario": [dict(row) for row in sabores]}
+
+# --- Endpoint: Agregar nuevo sabor ---
+# POST /sabores → recibe nombre, precio y stock, crea un nuevo sabor
+# BaseModel de Pydantic valida los datos que LLEGAN al servidor.
+# Solo se usa en endpoints que RECIBEN datos (POST, PUT).
+# En GET no se usa porque solo DEVUELVE datos, no recibe nada.
+class SaborNuevo(BaseModel):
+    nombre: str
+    precio: float
+    stock: int
+
+# POST /sabores → recibe un SaborNuevo, lo inserta en la base de datos
+@app.post("/sabores", status_code=201)
+def agregar_sabor(sabor: SaborNuevo):
+    conn = get_db_connection()
+    try:
+        conn.execute(
+            "INSERT INTO sabores (nombre, precio, stock) VALUES (?, ?, ?)",
+            (sabor.nombre, sabor.precio, sabor.stock)
+        )
+        conn.commit()
+        return {"mensaje": f"Sabor '{sabor.nombre}' agregado exitosamente"}
+    except Exception as e:
+        raise HTTPException(status_code=409, detail=f"El sabor ya existe o datos inválidos: {str(e)}")
+    finally:
+        conn.close()
+
+# --- Endpoint: Actualizar stock de un sabor ---
+# PUT /sabores/{sabor_id} → actualiza el stock de un sabor existente
+class StockActualizar(BaseModel):
+    stock: int
+
+@app.put("/sabores/{sabor_id}")
+def actualizar_stock(sabor_id: int, datos: StockActualizar):
+    conn = get_db_connection()
+    sabor = conn.execute("SELECT id FROM sabores WHERE id = ?", (sabor_id,)).fetchone()
+    if not sabor:
+        conn.close()
+        raise HTTPException(status_code=404, detail="Sabor no encontrado")
+    conn.execute("UPDATE sabores SET stock = ? WHERE id = ?", (datos.stock, sabor_id))
+    conn.commit()
+    conn.close()
+    return {"mensaje": "Stock actualizado exitosamente"}

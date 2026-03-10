@@ -1,0 +1,9 @@
+# 2. Activar el entorno virtual
+source venv/bin/activate
+# ✅ Verificar: debe aparecer (venv) en el prompt
+
+# --- TERMINAL 1: API ---
+uvicorn api.main:app --reload --host 0.0.0.0 --port 8000
+
+# --- TERMINAL 2: Dashboard ---
+streamlit run app/dashboard.py

@@ -8,7 +8,7 @@ def crearDB():
 
 CREATE TABLE IF NOT EXISTS sabores (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    nombre TEXT NOT NULL,
+    nombre TEXT NOT NULL UNIQUE,
     precio REAL NOT NULL CHECK (precio > 0),
     stock INTEGER NOT NULL CHECK (stock >= 0)
 );
