@@ -1,0 +1,20 @@
+# Entorno virtual
+venv/
+env/
+.env
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Base de datos
+db/*.db
+!db/.gitkeep
+
+# Streamlit
+.streamlit/
+
+# Sistema
+.DS_Store
