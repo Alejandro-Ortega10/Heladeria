@@ -46,7 +46,7 @@ async def actualizar_inventario(sabor: sabores):
     conn = get_db_connection()
     cursor = conn.cursor()
     try:
-        cursor.execute("""UPDATE Sabores SET nombre = ?, precio = ?, stock = ? WHERE id = ?""", (sabor.nombre, sabor.precio, sabor.stock, sabor.id))
+        cursor.execute("""UPDATE Sabores SET nombre = ?, precio = ?, stock = ? WHERE id = ?""", (sabor.nombre, sabor.precio, sabor.stock, sabor.id,))
         conn.commit()
         if cursor.rowcount == 0:
             raise HTTPException(status_code=404, detail=f"El sabor con ID {sabor.id} no existe")
@@ -61,7 +61,7 @@ async def actualizar_inventario(sabor: sabores):
 async def nuevo_sabor(sabor : nuevoSabor):
     conn = get_db_connection()
     try:
-        conn.execute(""" INSERT INTO sabores (nombre, precio, stock) VALUES (?, ?, ?)""", (nuevoSabor.nombre, nuevoSabor.precio, nuevoSabor.stock))
+        conn.execute(""" INSERT INTO sabores (nombre, precio, stock) VALUES (?, ?, ?)""", (sabor.nombre, sabor.precio, sabor.stock,))
         conn.commit()
         return {"mesaje":"El nuevo sabor ha sido agregado con exito"}
     except sqlite3.Error as e:
@@ -89,17 +89,17 @@ async def venta(venta:venta):
         total_venta = 0.0
         lista_detalle = []
         for item in venta.items:
-            sabor = conn.execute("SELECT stock, precio FROM sabores WHERE id = ?", (item.idSabor)).fetchone()
+            sabor = conn.execute("SELECT stock, precio FROM sabores WHERE id = ?", (item.idSabor,)).fetchone()
             if not sabor: 
                 raise HTTPException(status_code=404, detail=f"El sabor con ID {item.idSabor} No existe")
             if sabor["stock"] < item.cantidad:
                 raise HTTPException(status_code=400, detail=f"Stock insuficiente para el helado de {sabor['nombre']}, el stock disponible es de {sabor['stock']}")
             total_venta += (sabor["precio"] * item.cantidad)
             lista_detalle.append((item.idSabor, item.cantidad, sabor["precio"]))
-        cursor.execute("INSERT INTO ventas (total) VALUES (?)", (total_venta))
+        cursor.execute("INSERT INTO ventas (total) VALUES (?)", (total_venta,))
         venta_id = cursor.lastrowid
         for detalle in lista_detalle:
-            cursor.execute("INSERT INTO detalle_ventas (venta_id, sabor_id, cantidad, precio_unitario) VALUES (?, ?, ?, ?)", (venta_id, detalle[0], detalle[1], detalle[2]))
+            cursor.execute("INSERT INTO detalle_ventas (venta_id, sabor_id, cantidad, precio_unitario) VALUES (?, ?, ?, ?)", (venta_id, detalle[0], detalle[1], detalle[2],))
         conn.commit()
         return {"mensaje": "Vemta realizada", "venta_id": venta_id, "total": total_venta}
     except HTTPException as he:
@@ -107,7 +107,7 @@ async def venta(venta:venta):
         raise he
     except sqlite3.Error:
         conn.rollback()
-        raise HTTPException(status_code=500, detail=f"rror al intentar acceder a la base de datos")
+        raise HTTPException(status_code=500, detail=f"Error al intentar acceder a la base de datos")
     finally:
         conn.close()
 
@@ -117,26 +117,26 @@ class itemCompra(BaseModel):
     cantidad_comprada: int
 
 #Modelo compra completa
-class compra(BaseModel):
+class Compra(BaseModel):
     items: List[itemCompra]
     total_compra: float
 
 #Funcion para guardar y actualizar el inventario despues de una compra
 #El total de la venta se debe calcula en App.py puesto que el precio de compra lo pone el usuario
 @app.post("/compras/")
-async def realizar_compra(compra: compra):
+async def realizar_compra(compra: Compra):
     conn = get_db_connection()
     cursor = conn.cursor()
     try:
         conn.execute("BEGIN TRANSACTION")
-        cursor.execute("INSERT INTO compras (total_compras) VALUES (?)", (compra.total_compra))
+        cursor.execute("INSERT INTO compras (total_compra) VALUES (?)", (compra.total_compra,))
         compra_id = cursor.lastrowid
 
         for item in compra.items:
-            sabor_existe = conn.execute("SELECT id FROM sabores WHERE id = ?", (item.sabor_id)).fetchone()
+            sabor_existe = conn.execute("SELECT id FROM sabores WHERE id = ?", (item.sabor_id,)).fetchone()
             if not sabor_existe:
                 raise HTTPException(status_code=404, detail=f"El sabor con ID {item.sabor_id} no existe")
-            cursor.execute("INSERT INTO detalle_compras (compra_id, sabor_id, cantidad_comprada) VALUES (?, ?, ?)", (compra_id, item.sabor_id, item.cantidad_comprada))
+            cursor.execute("INSERT INTO detalle_compras (compra_id, sabor_id, cantidad_comprada) VALUES (?, ?, ?)", (compra_id, item.sabor_id, item.cantidad_comprada,))
         conn.commit()
         return {"mensaje": "Compra registrada y stock actualizado", "compra_id": compra_id}
     except HTTPException as he:
@@ -144,6 +144,6 @@ async def realizar_compra(compra: compra):
         raise he
     except sqlite3.Error as se:
         conn.rollback()
-        raise HTTPException(status_code=500, detail=f"rror al intentar acceder a la base de datos")
+        raise HTTPException(status_code=500, detail=f"Error al intentar acceder a la base de datos")
     finally:
         conn.close()
