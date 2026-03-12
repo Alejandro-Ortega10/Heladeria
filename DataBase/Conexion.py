@@ -1,15 +1,20 @@
 import sqlite3 as sql
+import os
+
+# Ruta absoluta para evitar problemas al ejecutar desde carpetas hermanas
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DB_PATH = os.path.join(BASE_DIR, "heladeria.db")
 
 def crearDB():
-    conn = sql.connect("DataBase/heladeria.db")
+    conn = sql.connect(DB_PATH)
     c = conn.cursor()
-    c.executescript('''PRAGMA foreign_keys = ON;
+    conn.executescript(f'''PRAGMA foreign_keys = ON;
 
 CREATE TABLE IF NOT EXISTS sabores (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    nombre TEXT NOT NULL,
-    precio REAL NOT NULL,
-    stock INTEGER NOT NULL
+    nombre TEXT NOT NULL UNIQUE,
+    precio REAL NOT NULL CHECK (precio > 0),
+    stock INTEGER NOT NULL CHECK (stock >= 0)
 );
 
 CREATE TABLE IF NOT EXISTS ventas (
@@ -57,9 +62,16 @@ BEGIN
     UPDATE sabores 
     SET stock = stock + NEW.cantidad_comprada 
     WHERE id = NEW.sabor_id;
-END;''')
+END;
+
+INSERT OR IGNORE INTO sabores (id, nombre, precio, stock) VALUES (1, 'Vainilla', 3500, 50);
+INSERT OR IGNORE INTO sabores (id, nombre, precio, stock) VALUES (2, 'Chocolate', 4000, 40);
+INSERT OR IGNORE INTO sabores (id, nombre, precio, stock) VALUES (3, 'Fresa', 3500, 35);
+INSERT OR IGNORE INTO sabores (id, nombre, precio, stock) VALUES (4, 'Mango', 4500, 30);
+INSERT OR IGNORE INTO sabores (id, nombre, precio, stock) VALUES (5, 'Cookies and Cream', 5000, 25);
+''')
     conn.commit()
-    conn.close
+    conn.close()
 
 if __name__ == "__main__":
     crearDB()

@@ -2,9 +2,9 @@ PRAGMA foreign_keys = ON;
 
 CREATE TABLE IF NOT EXISTS sabores (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    nombre TEXT NOT NULL,
-    precio REAL NOT NULL,
-    stock INTEGER NOT NULL
+    nombre TEXT NOT NULL UNIQUE,
+    precio REAL NOT NULL CHECK (precio > 0),
+    stock INTEGER NOT NULL CHECK (stock >= 0)
 );
 
 CREATE TABLE IF NOT EXISTS ventas (
@@ -53,3 +53,9 @@ BEGIN
     SET stock = stock + NEW.cantidad_comprada 
     WHERE id = NEW.sabor_id;
 END;
+
+INSERT OR IGNORE INTO sabores (id, nombre, precio, stock) VALUES (1, 'Vainilla', 3500, 50);
+INSERT OR IGNORE INTO sabores (id, nombre, precio, stock) VALUES (2, 'Chocolate', 4000, 40);
+INSERT OR IGNORE INTO sabores (id, nombre, precio, stock) VALUES (3, 'Fresa', 3500, 35);
+INSERT OR IGNORE INTO sabores (id, nombre, precio, stock) VALUES (4, 'Mango', 4500, 30);
+INSERT OR IGNORE INTO sabores (id, nombre, precio, stock) VALUES (5, 'Cookies and Cream', 5000, 25);
