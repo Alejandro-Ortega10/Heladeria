@@ -1,45 +1,57 @@
 ## 🚀 Cómo empezar
 
-1. **Preparar el entorno (Solo la primera vez):**
+1. **Preparar el entorno (Solo la primera vez)**
+    * Crear y activar el entorno virtual:
+      ```bash
+      python3 -m venv venv
+      source venv/bin/activate
+      ```
+    * Instalar dependencias:
+      ```bash
+      pip install fastapi uvicorn streamlit requests ollama
+      ```
 
-    # Activar el entorno
+2. **Ejecución del Sistema**
+    * Es necesario abrir **dos terminales** y activar el entorno en cada una:
+    * **Terminal 1: API (Servidor)**
+        * `source venv/bin/activate`
+        * `uvicorn API.main:app --reload --host 0.0.0.0 --port 8000`
+    * **Terminal 2: Dashboard (Interfaz)**
+        * `source venv/bin/activate`
+        * `streamlit run App/App.py`
 
-    source venv/bin/activate
+3. **Configuración de Voz (Piper TTS)**
+    * **3.1 Ubicación de la carpeta**
+        * Asegúrate de estar en el directorio principal del proyecto: `/home/user/Programacion/Heladeria`
+    * **3.2 Descarga del Binario de Piper**
+        * Descarga el archivo según la arquitectura de tu máquina:
+            * **Para PC (Ubuntu/Linux x86_64):** [Descargar Piper x86_64](https://github.com/rhasspy/piper/releases/download/v1.2.0/piper_linux_x86_64.tar.gz)
+            * **Para Raspberry Pi (64-bit aarch64):** [Descargar Piper aarch64](https://github.com/rhasspy/piper/releases/download/v1.2.0/piper_linux_aarch64.tar.gz)
+        * Descomprime el archivo en la raíz del proyecto:
+          ```bash
+          tar -xvf piper_linux_nombre_arquitectura.tar.gz
+          ```
+    * **3.3 Descarga de los Modelos de Voz**
+        * Descarga estos dos archivos y guárdalos directamente en la carpeta raíz `/Heladeria`:
+            * **Modelo de Voz (.onnx):** [es_MX-aldona-medium.onnx](https://huggingface.co/rhasspy/piper-voices/resolve/main/es/es_MX/aldona/medium/es_MX-aldona-medium.onnx)
+            * **Configuración (.json):** [es_MX-aldona-medium.onnx.json](https://huggingface.co/rhasspy/piper-voices/resolve/main/es/es_MX/aldona/medium/es_MX-aldona-medium.onnx.json)
+    * **3.4 Configuración de Permisos**
+        * Es fundamental dar permisos de ejecución al binario de Piper (ajusta la ruta según tu carpeta):
+          ```bash
+          chmod +x ./piper/piper
+          ```
 
-2. **Ejecución del Sistema:**
+4. **Ejecución del Agente de Voz**
+    * En una nueva terminal con el entorno activo, ejecuta:
+      ```bash
+      python3 local_agent_voz.py
+      ```
 
-    Es necesario abrir **dos terminales** y activar el entorno en cada una:
+## 📁 Estructura del Proyecto
 
-    **Terminal 1: API (Servidor)**
-    source venv/bin/activate
-    uvicorn API.main:app --reload --host 0.0.0.0 --port 8000
-
-   **Terminal 2: Dashboard (Interfaz)**
-
-    source venv/bin/activate
-    streamlit run App/App.py
-
-3.
-3.1 Ubicación de la carpeta 
-    Primero, asegúrate de estar en el directorio principal de la heladería:
-3.2 Descarga del Binario de Piper
-    Dependiendo de tu sistema operativo, descarga el archivo comprimido:
-    Para PC (Ubuntu/Linux x86_64): https://huggingface.co/rhasspy/piper-voices/tree/main/es/es_MX/claude/high
-    Para Raspberry Pi (64-bit aarch64): https://huggingface.co/rhasspy/piper-voices/tree/main/es/es_MX/claude/high
-    Luego, descomprímelo dentro de la carpeta del proyecto:
-
-3.3 Descarga de los Modelos de Voz
-    Para que la heladería hable en español, necesitamos los archivos de modelo. Descarga ambos y colócalos en la raíz de /Heladeria:
-    Archivo ONNX (Voz): https://huggingface.co/rhasspy/piper-voices/tree/main/es/es_MX/ald/medium
-    Archivo JSON (Configuración): https://huggingface.co/rhasspy/piper-voices/tree/main/es/es_MX/ald/medium
-
-3.4 Configuración de Permisos (Opcional)
-    Es crucial darle permisos de ejecución al binario de Piper para que Python pueda utilizarlo. Ajusta la ruta según cómo se haya extraído la carpeta:
-    chmod +x ./piper/piper
-
-## 📁 Estructura
-
-- `API/`: Lógica FastAPI (Ventas, Compras, Inventario).
-- `App/`: Interfaz Streamlit.
-- `DataBase/`: Base de Datos SQLite y Script de creación.
-- `venv/`: Entorno virtual con dependencias.
+* **`API/`**: Lógica de la heladería con FastAPI (Ventas, Inventario).
+* **`App/`**: Interfaz visual desarrollada en Streamlit.
+* **`DataBase/`**: Archivo SQLite y scripts de base de datos.
+* **`mcp/`**: Agentes de IA y lógica de integración.
+* **`piper/`**: Binarios y ejecutables del motor de voz.
+* **`venv/`**: Entorno virtual de Python con las librerías necesarias.
