@@ -25,16 +25,17 @@
         * Asegúrate de estar en el directorio principal del proyecto: `/home/user/Programacion/Heladeria`
     * **3.2 Descarga del Binario de Piper**
         * Descarga el archivo según la arquitectura de tu máquina:
-            * **Para PC (Ubuntu/Linux x86_64):** [Descargar Piper x86_64](https://github.com/rhasspy/piper/releases/download/v1.2.0/piper_linux_x86_64.tar.gz)
-            * **Para Raspberry Pi (64-bit aarch64):** [Descargar Piper aarch64](https://github.com/rhasspy/piper/releases/download/v1.2.0/piper_linux_aarch64.tar.gz)
+            * **Para PC (Ubuntu/Linux x86_64):** [Descargar Piper x86_64](https://github.com/rhasspy/piper/releases/)
+            * **Para Raspberry Pi (64-bit aarch64):** [Descargar Piper aarch64](https://github.com/rhasspy/piper/releases/)
         * Descomprime el archivo en la raíz del proyecto:
           ```bash
           tar -xvf piper_linux_nombre_arquitectura.tar.gz
           ```
     * **3.3 Descarga de los Modelos de Voz**
         * Descarga estos dos archivos y guárdalos directamente en la carpeta raíz `/Heladeria`:
-            * **Modelo de Voz (.onnx):** [es_MX-aldona-medium.onnx](https://huggingface.co/rhasspy/piper-voices/resolve/main/es/es_MX/aldona/medium/es_MX-aldona-medium.onnx)
-            * **Configuración (.json):** [es_MX-aldona-medium.onnx.json](https://huggingface.co/rhasspy/piper-voices/resolve/main/es/es_MX/aldona/medium/es_MX-aldona-medium.onnx.json)
+            * **Modelo de Voz (.onnx):** [es_MX-aldona-medium.onnx](https://huggingface.co/rhasspy/piper-voices/tree/main/es/es_MX/ald/medium)
+            * **Configuración (.json):** [es_MX-aldona-medium.onnx.json](https://huggingface.co/rhasspy/piper-voices/tree/main/es/es_MX/ald/medium)
+            * Guarda los archivos como voz_es.onnx y voz_es.onnx.json
     * **3.4 Configuración de Permisos**
         * Es fundamental dar permisos de ejecución al binario de Piper (ajusta la ruta según tu carpeta):
           ```bash

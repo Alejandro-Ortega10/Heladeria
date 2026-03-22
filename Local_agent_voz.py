@@ -8,7 +8,7 @@ from vosk import Model, KaldiRecognizer
 # --- CONFIGURACIÓN ---
 API_URL = "http://127.0.0.1:8000"
 MODELO = "llama3.2"
-PIPER_BIN = "./piper/piper/piper" # Ajusta según tu ruta de Piper
+PIPER_BIN = "./piper/piper" # Ajusta según tu ruta de Piper
 VOZ_MODELO = "voz_es.onnx"
 
 # Cargar el modelo de Vosk
