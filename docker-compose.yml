@@ -1,0 +1,58 @@
+services:
+
+  # ─────────────────────────────────────────────
+  # Servicio 1: API FastAPI (backend)
+  # ─────────────────────────────────────────────
+  api:
+    build: .
+    container_name: heladeria-api
+    restart: always
+    command: uvicorn API.main:app --host 0.0.0.0 --port 8000
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./DataBase:/app/DataBase   # Base de datos persistente
+    networks:
+      - heladeria-net
+
+  # ─────────────────────────────────────────────
+  # Servicio 2: Dashboard Streamlit (frontend)
+  # ─────────────────────────────────────────────
+  app:
+    build: .
+    container_name: heladeria-app
+    restart: always
+    command: streamlit run App/App.py --server.port 8501 --server.address 0.0.0.0
+    ports:
+      - "8501:8501"
+    depends_on:
+      - api
+    networks:
+      - heladeria-net
+
+  # ─────────────────────────────────────────────
+  # Servicio 3: Agente de Voz (IA + micrófono)
+  # NOTA: Requiere acceso al hardware de audio de la Raspberry Pi
+  # ─────────────────────────────────────────────
+  voz:
+    build: .
+    container_name: heladeria-voz
+    restart: always
+    command: python Local_agent_voz.py
+    depends_on:
+      - api
+    volumes:
+      - ./piper:/app/piper               # Binario de Piper (ARM64 en la Raspi)
+      - ./modelo_vosk:/app/modelo_vosk   # Modelo de reconocimiento de voz
+      - ./voz_es.onnx:/app/voz_es.onnx
+      - ./voz_es.onnx.json:/app/voz_es.onnx.json
+    # Acceso al micrófono y altavoz del host (Raspberry Pi)
+    devices:
+      - /dev/snd:/dev/snd
+    environment:
+      - PULSE_RUNTIME_PATH=/run/user/1000/pulse   # Needed for audio on Pi
+    network_mode: host   # Necesario para conectar con Ollama en el host
+
+networks:
+  heladeria-net:
+    driver: bridge

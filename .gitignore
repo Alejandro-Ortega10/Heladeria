@@ -1,5 +1,29 @@
 venv/
-__pycache__
+__pycache__/
 *.pyc
 .env
 .DS_Store
+
+# Modelos y binarios
+piper/
+modelo_vosk/
+voz_es.onnx
+voz_es.onnx.json
+
+# Archivos comprimidos
+*.zip
+*.tar.gz
+
+# Docker
+*.tar
+
+# Archivos temporales del deploy
+manual.pdf
+manual.txt
+setup_services.sh
+salida.wav
+
+# Base de datos
+*.db
+*.db-journal
+*.sqlite3
