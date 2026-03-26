@@ -7,8 +7,10 @@
 
 set -e  # Detener si hay error
 
-PROJECT_DIR="/home/pi/heladeria"
-echo "=== PREPARANDO RASPBERRY PI PARA HELADERIA ==="
+# Detectar usuario actual
+CURRENT_USER=$(whoami)
+PROJECT_DIR="$(pwd)" # El directorio desde donde se ejecuta el script
+echo "=== PREPARANDO RASPBERRY PI PARA HELADERIA (Usuario: $CURRENT_USER) ==="
 
 # 1. Instalar dependencias del sistema
 echo "[1/6] Instalando dependencias del sistema..."
@@ -19,8 +21,8 @@ sudo apt-get install -y \
     wget unzip curl
 
 # 2. Habilitar Docker sin sudo
-sudo usermod -aG docker pi
-echo "      Docker instalado correctamente."
+sudo usermod -aG docker $CURRENT_USER
+echo "      Docker instalado correctamente para $CURRENT_USER."
 
 # 3. Instalar Ollama (IA local) en el HOST de la Raspberry (no en Docker)
 echo "[2/6] Instalando Ollama..."
