@@ -12,17 +12,31 @@ CURRENT_USER=$(whoami)
 PROJECT_DIR="$(pwd)" # El directorio desde donde se ejecuta el script
 echo "=== PREPARANDO RASPBERRY PI PARA HELADERIA (Usuario: $CURRENT_USER) ==="
 
-# 1. Instalar dependencias del sistema
+# 1. Instalar dependencias del sistema (excepto Docker por ahora)
 echo "[1/6] Instalando dependencias del sistema..."
 sudo apt-get update -qq
 sudo apt-get install -y \
-    docker.io docker-compose \
     portaudio19-dev alsa-utils \
     wget unzip curl
 
-# 2. Habilitar Docker sin sudo
+# 2. Instalación robusta de Docker
+echo "[2/6] Verificando Docker..."
+if ! command -v docker &> /dev/null; then
+    echo "      Instalando Docker usando el script oficial..."
+    curl -fsSL https://get.docker.com | sh
+else
+    echo "      Docker ya está instalado."
+fi
+
+# Asegurar Docker Compose (V2)
+if ! docker compose version &> /dev/null; then
+    echo "      Instalando Docker Compose..."
+    sudo apt-get install -y docker-compose-v2 || sudo apt-get install -y docker-compose
+fi
+
+# Habilitar Docker sin sudo
 sudo usermod -aG docker $CURRENT_USER
-echo "      Docker instalado correctamente para $CURRENT_USER."
+echo "      Docker configurado para $CURRENT_USER."
 
 # 3. Instalar Ollama (IA local) en el HOST de la Raspberry (no en Docker)
 echo "[2/6] Instalando Ollama..."
