@@ -1,8 +1,10 @@
 # Imagen base multiplataforma (funciona en x86_64 y ARM64 Raspberry Pi)
 FROM python:3.11-slim
 
-# --- Dependencias del sistema (audio, utilidades) ---
+# --- Dependencias del sistema (audio, utilidades y compilación) ---
 RUN apt-get update && apt-get install -y \
+    build-essential \
+    gcc \
     portaudio19-dev \
     python3-pyaudio \
     alsa-utils \
