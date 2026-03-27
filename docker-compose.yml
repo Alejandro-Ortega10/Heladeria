@@ -21,6 +21,7 @@ services:
   app:
     build: .
     container_name: heladeria-app
+    restart: always
     command: streamlit run App/App.py --server.address 0.0.0.0
     ports:
       - "8501:8501"
@@ -40,6 +41,7 @@ services:
   voz:
     build: .
     container_name: heladeria-voz
+    restart: always
     command: python Local_agent_voz.py
     depends_on:
       - api
