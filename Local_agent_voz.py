@@ -5,9 +5,11 @@ import subprocess
 import pyaudio
 from vosk import Model, KaldiRecognizer
 
+import os
+
 # --- CONFIGURACIÓN ---
-API_URL = "http://127.0.0.1:8000"
-MODELO = "llama3.2"
+API_URL = os.getenv("API_URL", "http://localhost:8000")
+MODELO = os.getenv("OLLAMA_MODEL", "llama3.2")
 PIPER_BIN = "./piper/piper" # Ajusta según tu ruta de Piper
 VOZ_MODELO = "voz_es.onnx"
 

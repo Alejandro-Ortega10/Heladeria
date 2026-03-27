@@ -1,8 +1,6 @@
 import streamlit as st
 import requests
-
-# URL de la API Unificada
-API_URL = "http://127.0.0.1:8000"
+import os
 
 st.set_page_config(page_title="Heladería Unificada", layout="wide")
 
