@@ -1,0 +1,389 @@
+[2/6] Instalando Ollama...
+      Ollama ya está instalado.
+[3/6] Descargando modelo Vosk...
+      Modelo Vosk descargado.
+[4/6] Descargando Piper TTS (ARM64)...
+      Piper ARM64 descargado.
+[5/6] Descargando modelos de voz...
+      Modelos de voz descargados.
+[6/6] Construyendo y levantando contenedores...
+[+] Building 222.1s (9/14)                                                                                                                                                                                                     docker:default
+ => [api internal] load build definition from Dockerfile                                                                                                                                                                                 0.1s
+ => => transferring dockerfile: 817B                                                                                                                                                                                                     0.0s
+ => [api internal] load metadata for docker.io/library/python:3.11-slim                                                                                                                                                                  1.7s
+ => [api internal] load .dockerignore                                                                                                                                                                                                    0.1s
+ => => transferring context: 2B                                                                                                                                                                                                          0.0s
+ => [api internal] load build context                                                                                                                                                                                                    0.1s
+ => => transferring context: 58.78kB                                                                                                                                                                                                     0.0s
+ => [api  1/10] FROM docker.io/library/python:3.11-slim@sha256:9358444059ed78e2975ada2c189f1c1a3144a5dab6f35bff8c981afb38946634                                                                                                         20.9s
+ => => resolve docker.io/library/python:3.11-slim@sha256:9358444059ed78e2975ada2c189f1c1a3144a5dab6f35bff8c981afb38946634                                                                                                                0.1s
+ => => sha256:77411cf6fbec5540a8b956963f5d6e969d304cfee24fed7c0ef42f22c49e608a 1.75kB / 1.75kB                                                                                                                                           0.0s
+ => => sha256:0725b147cc5e88f08ef19f7ecff5e0c04edafd1f2452553e6306aaa7c5a94051 5.49kB / 5.49kB                                                                                                                                           0.0s
+ => => sha256:f4badedbec24858ef2dc51256f6418328e305e9c3c5a5e093581f83425618bd5 30.14MB / 30.14MB                                                                                                                                        12.3s
+ => => sha256:b4822ed67dff6dee67342a10debf327642a6d8f6a65b7080bbf4d3d8e048e6fc 1.27MB / 1.27MB                                                                                                                                           2.6s
+ => => sha256:d6c44f24ac6d3ed8e0f59c89c5dd485f80db5404d3710e5289d970d53889f49b 14.32MB / 14.32MB                                                                                                                                        10.7s
+ => => sha256:9358444059ed78e2975ada2c189f1c1a3144a5dab6f35bff8c981afb38946634 10.37kB / 10.37kB                                                                                                                                         0.0s
+ => => sha256:ccdb4a613b5ce528e7385f571fafed3702a7390a0adbd685508a926f0db5f649 249B / 249B                                                                                                                                               3.0s
+ => => extracting sha256:f4badedbec24858ef2dc51256f6418328e305e9c3c5a5e093581f83425618bd5                                                                                                                                                4.6s
+ => => extracting sha256:b4822ed67dff6dee67342a10debf327642a6d8f6a65b7080bbf4d3d8e048e6fc                                                                                                                                                0.3s
+ => => extracting sha256:d6c44f24ac6d3ed8e0f59c89c5dd485f80db5404d3710e5289d970d53889f49b                                                                                                                                                2.3s
+ => => extracting sha256:ccdb4a613b5ce528e7385f571fafed3702a7390a0adbd685508a926f0db5f649                                                                                                                                                0.0s
+ => [api  2/10] RUN apt-get update && apt-get install -y     portaudio19-dev     python3-pyaudio     alsa-utils     libasound2-dev     wget     unzip     && rm -rf /var/lib/apt/lists/*                                                52.8s
+ => [api  3/10] WORKDIR /app                                                                                                                                                                                                             0.1s 
+ => [api  4/10] COPY requirements.txt .                                                                                                                                                                                                  0.2s 
+ => ERROR [api  5/10] RUN pip install --no-cache-dir -r requirements.txt                                                                                                                                                               146.0s 
+------                                                                                                                                                                                                                                        
+ > [api  5/10] RUN pip install --no-cache-dir -r requirements.txt:                                                                                                                                                                            
+7.494 Collecting altair==6.0.0 (from -r requirements.txt (line 1))                                                                                                                                                                            
+7.620   Downloading altair-6.0.0-py3-none-any.whl.metadata (11 kB)                                                                                                                                                                            
+7.680 Collecting annotated-doc==0.0.4 (from -r requirements.txt (line 2))                                                                                                                                                                     
+7.708   Downloading annotated_doc-0.0.4-py3-none-any.whl.metadata (6.6 kB)                                                                                                                                                                    
+7.769 Collecting annotated-types==0.7.0 (from -r requirements.txt (line 3))
+7.800   Downloading annotated_types-0.7.0-py3-none-any.whl.metadata (15 kB)
+7.988 Collecting anyio==4.12.1 (from -r requirements.txt (line 4))
+8.032   Downloading anyio-4.12.1-py3-none-any.whl.metadata (4.3 kB)
+8.149 Collecting attrs==25.4.0 (from -r requirements.txt (line 5))
+8.180   Downloading attrs-25.4.0-py3-none-any.whl.metadata (10 kB)
+8.260 Collecting blinker==1.9.0 (from -r requirements.txt (line 6))
+8.288   Downloading blinker-1.9.0-py3-none-any.whl.metadata (1.6 kB)
+8.446 Collecting cachetools==7.0.2 (from -r requirements.txt (line 7))
+8.480   Downloading cachetools-7.0.2-py3-none-any.whl.metadata (5.6 kB)
+8.605 Collecting certifi==2026.2.25 (from -r requirements.txt (line 8))
+8.641   Downloading certifi-2026.2.25-py3-none-any.whl.metadata (2.5 kB)
+9.198 Collecting cffi==2.0.0 (from -r requirements.txt (line 9))
+9.227   Downloading cffi-2.0.0-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.whl.metadata (2.6 kB)
+9.735 Collecting charset-normalizer==3.4.4 (from -r requirements.txt (line 10))
+9.762   Downloading charset_normalizer-3.4.4-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl.metadata (37 kB)
+9.888 Collecting click==8.3.1 (from -r requirements.txt (line 11))
+9.918   Downloading click-8.3.1-py3-none-any.whl.metadata (2.6 kB)
+10.01 Collecting colorama==0.4.6 (from -r requirements.txt (line 12))
+10.03   Downloading colorama-0.4.6-py2.py3-none-any.whl.metadata (17 kB)
+10.11 Collecting dnspython==2.8.0 (from -r requirements.txt (line 13))
+10.14   Downloading dnspython-2.8.0-py3-none-any.whl.metadata (5.7 kB)
+10.22 Collecting email-validator==2.3.0 (from -r requirements.txt (line 14))
+10.25   Downloading email_validator-2.3.0-py3-none-any.whl.metadata (26 kB)
+10.70 Collecting fastapi==0.135.1 (from -r requirements.txt (line 15))
+10.72   Downloading fastapi-0.135.1-py3-none-any.whl.metadata (30 kB)
+10.81 Collecting fastapi-cli==0.0.24 (from -r requirements.txt (line 16))
+10.84   Downloading fastapi_cli-0.0.24-py3-none-any.whl.metadata (6.4 kB)
+10.92 Collecting fastapi-cloud-cli==0.14.0 (from -r requirements.txt (line 17))
+10.94   Downloading fastapi_cloud_cli-0.14.0-py3-none-any.whl.metadata (3.3 kB)
+11.30 Collecting fastar==0.8.0 (from -r requirements.txt (line 18))
+11.32   Downloading fastar-0.8.0-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl.metadata (4.0 kB)
+11.39 Collecting gitdb==4.0.12 (from -r requirements.txt (line 19))
+11.41   Downloading gitdb-4.0.12-py3-none-any.whl.metadata (1.2 kB)
+11.58 Collecting GitPython==3.1.46 (from -r requirements.txt (line 20))
+11.61   Downloading gitpython-3.1.46-py3-none-any.whl.metadata (13 kB)
+11.67 Collecting h11==0.16.0 (from -r requirements.txt (line 21))
+11.69   Downloading h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
+11.81 Collecting httpcore==1.0.9 (from -r requirements.txt (line 22))
+11.84   Downloading httpcore-1.0.9-py3-none-any.whl.metadata (21 kB)
+11.99 Collecting httptools==0.7.1 (from -r requirements.txt (line 23))
+12.02   Downloading httptools-0.7.1-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl.metadata (3.5 kB)
+12.13 Collecting httpx==0.28.1 (from -r requirements.txt (line 24))
+12.15   Downloading httpx-0.28.1-py3-none-any.whl.metadata (7.1 kB)
+12.23 Collecting idna==3.11 (from -r requirements.txt (line 25))
+12.26   Downloading idna-3.11-py3-none-any.whl.metadata (8.4 kB)
+12.36 Collecting Jinja2==3.1.6 (from -r requirements.txt (line 26))
+12.39   Downloading jinja2-3.1.6-py3-none-any.whl.metadata (2.9 kB)
+12.54 Collecting jsonschema==4.26.0 (from -r requirements.txt (line 27))
+12.57   Downloading jsonschema-4.26.0-py3-none-any.whl.metadata (7.6 kB)
+12.65 Collecting jsonschema-specifications==2025.9.1 (from -r requirements.txt (line 28))
+12.67   Downloading jsonschema_specifications-2025.9.1-py3-none-any.whl.metadata (2.9 kB)
+12.78 Collecting markdown-it-py==4.0.0 (from -r requirements.txt (line 29))
+12.82   Downloading markdown_it_py-4.0.0-py3-none-any.whl.metadata (7.3 kB)
+13.13 Collecting MarkupSafe==3.0.3 (from -r requirements.txt (line 30))
+13.17   Downloading markupsafe-3.0.3-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl.metadata (2.7 kB)
+13.22 Collecting mdurl==0.1.2 (from -r requirements.txt (line 31))
+13.25   Downloading mdurl-0.1.2-py3-none-any.whl.metadata (1.6 kB)
+13.69 Collecting narwhals==2.17.0 (from -r requirements.txt (line 32))
+13.72   Downloading narwhals-2.17.0-py3-none-any.whl.metadata (14 kB)
+14.95 Collecting numpy==2.4.2 (from -r requirements.txt (line 33))
+14.98   Downloading numpy-2.4.2-cp311-cp311-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl.metadata (6.6 kB)
+15.06 Collecting ollama==0.6.1 (from -r requirements.txt (line 34))
+15.09   Downloading ollama-0.6.1-py3-none-any.whl.metadata (4.3 kB)
+15.20 Collecting packaging==26.0 (from -r requirements.txt (line 35))
+15.22   Downloading packaging-26.0-py3-none-any.whl.metadata (3.3 kB)
+15.91 Collecting pandas==2.3.3 (from -r requirements.txt (line 36))
+15.94   Downloading pandas-2.3.3-cp311-cp311-manylinux_2_24_aarch64.manylinux_2_28_aarch64.whl.metadata (91 kB)
+15.97      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 91.2/91.2 kB 4.2 MB/s eta 0:00:00
+17.05 Collecting pillow==12.1.1 (from -r requirements.txt (line 37))
+17.08   Downloading pillow-12.1.1-cp311-cp311-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl.metadata (8.8 kB)
+18.15 Collecting protobuf==6.33.5 (from -r requirements.txt (line 38))
+18.18   Downloading protobuf-6.33.5-cp39-abi3-manylinux2014_aarch64.whl.metadata (593 bytes)
+18.65 Collecting pyarrow==23.0.1 (from -r requirements.txt (line 39))
+18.67   Downloading pyarrow-23.0.1-cp311-cp311-manylinux_2_28_aarch64.whl.metadata (3.1 kB)
+18.77 Collecting PyAudio==0.2.14 (from -r requirements.txt (line 40))
+18.81   Downloading PyAudio-0.2.14.tar.gz (47 kB)
+18.82      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 47.1/47.1 kB 18.2 MB/s eta 0:00:00
+18.87   Installing build dependencies: started
+25.58   Installing build dependencies: finished with status 'done'
+25.59   Getting requirements to build wheel: started
+26.40   Getting requirements to build wheel: finished with status 'done'
+26.40   Preparing metadata (pyproject.toml): started
+27.13   Preparing metadata (pyproject.toml): finished with status 'done'
+27.20 Collecting pycparser==3.0 (from -r requirements.txt (line 41))
+27.23   Downloading pycparser-3.0-py3-none-any.whl.metadata (8.2 kB)
+27.96 Collecting pydantic==2.12.5 (from -r requirements.txt (line 42))
+27.99   Downloading pydantic-2.12.5-py3-none-any.whl.metadata (90 kB)
+28.02      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 90.6/90.6 kB 3.6 MB/s eta 0:00:00
+28.10 Collecting pydantic-extra-types==2.11.0 (from -r requirements.txt (line 43))
+28.13   Downloading pydantic_extra_types-2.11.0-py3-none-any.whl.metadata (4.0 kB)
+28.23 Collecting pydantic-settings==2.13.1 (from -r requirements.txt (line 44))
+28.26   Downloading pydantic_settings-2.13.1-py3-none-any.whl.metadata (3.4 kB)
+33.50 Collecting pydantic_core==2.41.5 (from -r requirements.txt (line 45))
+33.53   Downloading pydantic_core-2.41.5-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl.metadata (7.3 kB)
+33.62 Collecting pydeck==0.9.1 (from -r requirements.txt (line 46))
+33.66   Downloading pydeck-0.9.1-py2.py3-none-any.whl.metadata (4.1 kB)
+33.83 Collecting Pygments==2.19.2 (from -r requirements.txt (line 47))
+33.86   Downloading pygments-2.19.2-py3-none-any.whl.metadata (2.5 kB)
+33.95 Collecting python-dateutil==2.9.0.post0 (from -r requirements.txt (line 48))
+33.99   Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl.metadata (8.4 kB)
+34.10 Collecting python-dotenv==1.2.2 (from -r requirements.txt (line 49))
+34.13   Downloading python_dotenv-1.2.2-py3-none-any.whl.metadata (27 kB)
+34.26 Collecting python-multipart==0.0.22 (from -r requirements.txt (line 50))
+34.28   Downloading python_multipart-0.0.22-py3-none-any.whl.metadata (1.8 kB)
+34.60 Collecting pytz==2026.1.post1 (from -r requirements.txt (line 51))
+34.64   Downloading pytz-2026.1.post1-py2.py3-none-any.whl.metadata (22 kB)
+34.93 Collecting PyYAML==6.0.3 (from -r requirements.txt (line 52))
+34.96   Downloading pyyaml-6.0.3-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl.metadata (2.4 kB)
+35.15 Collecting referencing==0.37.0 (from -r requirements.txt (line 53))
+35.18   Downloading referencing-0.37.0-py3-none-any.whl.metadata (2.8 kB)
+35.37 Collecting requests==2.32.5 (from -r requirements.txt (line 54))
+35.40   Downloading requests-2.32.5-py3-none-any.whl.metadata (4.9 kB)
+35.78 Collecting rich==14.3.3 (from -r requirements.txt (line 55))
+35.81   Downloading rich-14.3.3-py3-none-any.whl.metadata (18 kB)
+35.94 Collecting rich-toolkit==0.19.7 (from -r requirements.txt (line 56))
+35.98   Downloading rich_toolkit-0.19.7-py3-none-any.whl.metadata (1.0 kB)
+36.70 Collecting rignore==0.7.6 (from -r requirements.txt (line 57))
+36.72   Downloading rignore-0.7.6-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl.metadata (4.2 kB)
+38.73 Collecting rpds-py==0.30.0 (from -r requirements.txt (line 58))
+38.76   Downloading rpds_py-0.30.0-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl.metadata (4.1 kB)
+39.16 Collecting sentry-sdk==2.54.0 (from -r requirements.txt (line 59))
+39.19   Downloading sentry_sdk-2.54.0-py2.py3-none-any.whl.metadata (10 kB)
+39.29 Collecting shellingham==1.5.4 (from -r requirements.txt (line 60))
+39.32   Downloading shellingham-1.5.4-py2.py3-none-any.whl.metadata (3.5 kB)
+39.39 Collecting six==1.17.0 (from -r requirements.txt (line 61))
+39.42   Downloading six-1.17.0-py2.py3-none-any.whl.metadata (1.7 kB)
+39.48 Collecting smmap==5.0.2 (from -r requirements.txt (line 62))
+39.51   Downloading smmap-5.0.2-py3-none-any.whl.metadata (4.3 kB)
+39.65 Collecting srt==3.5.3 (from -r requirements.txt (line 63))
+39.68   Downloading srt-3.5.3.tar.gz (28 kB)
+39.72   Preparing metadata (setup.py): started
+41.10   Preparing metadata (setup.py): finished with status 'done'
+41.31 Collecting starlette==0.52.1 (from -r requirements.txt (line 64))
+41.35   Downloading starlette-0.52.1-py3-none-any.whl.metadata (6.3 kB)
+41.78 Collecting streamlit==1.55.0 (from -r requirements.txt (line 65))
+41.80   Downloading streamlit-1.55.0-py3-none-any.whl.metadata (9.8 kB)
+41.91 Collecting tenacity==9.1.4 (from -r requirements.txt (line 66))
+41.95   Downloading tenacity-9.1.4-py3-none-any.whl.metadata (1.2 kB)
+42.01 Collecting toml==0.10.2 (from -r requirements.txt (line 67))
+42.03   Downloading toml-0.10.2-py2.py3-none-any.whl.metadata (7.1 kB)
+42.27 Collecting tornado==6.5.4 (from -r requirements.txt (line 68))
+42.31   Downloading tornado-6.5.4-cp39-abi3-manylinux_2_17_aarch64.manylinux2014_aarch64.whl.metadata (2.8 kB)
+42.56 Collecting tqdm==4.67.3 (from -r requirements.txt (line 69))
+42.58   Downloading tqdm-4.67.3-py3-none-any.whl.metadata (57 kB)
+42.62      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 57.7/57.7 kB 2.4 MB/s eta 0:00:00
+42.77 Collecting typer==0.24.1 (from -r requirements.txt (line 70))
+42.79   Downloading typer-0.24.1-py3-none-any.whl.metadata (16 kB)
+42.86 Collecting typing-inspection==0.4.2 (from -r requirements.txt (line 71))
+42.88   Downloading typing_inspection-0.4.2-py3-none-any.whl.metadata (2.6 kB)
+42.97 Collecting typing_extensions==4.15.0 (from -r requirements.txt (line 72))
+43.01   Downloading typing_extensions-4.15.0-py3-none-any.whl.metadata (3.3 kB)
+43.09 Collecting tzdata==2025.3 (from -r requirements.txt (line 73))
+43.12   Downloading tzdata-2025.3-py2.py3-none-any.whl.metadata (1.4 kB)
+43.32 Collecting urllib3==2.6.3 (from -r requirements.txt (line 74))
+43.35   Downloading urllib3-2.6.3-py3-none-any.whl.metadata (6.9 kB)
+43.54 Collecting uvicorn==0.41.0 (from -r requirements.txt (line 75))
+43.57   Downloading uvicorn-0.41.0-py3-none-any.whl.metadata (6.7 kB)
+43.77 Collecting vosk==0.3.45 (from -r requirements.txt (line 76))
+43.81   Downloading vosk-0.3.45-py3-none-manylinux2014_aarch64.whl.metadata (1.8 kB)
+44.11 Collecting watchdog==6.0.0 (from -r requirements.txt (line 77))
+44.14   Downloading watchdog-6.0.0-py3-none-manylinux2014_aarch64.whl.metadata (44 kB)
+44.21      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 44.3/44.3 kB 576.1 kB/s eta 0:00:00
+44.71 Collecting watchfiles==1.1.1 (from -r requirements.txt (line 78))
+44.74   Downloading watchfiles-1.1.1-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl.metadata (4.9 kB)
+45.31 Collecting websockets==16.0 (from -r requirements.txt (line 79))
+45.36   Downloading websockets-16.0-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl.metadata (6.8 kB)
+51.56 Collecting uvloop>=0.15.1 (from uvicorn[standard]>=0.15.0->fastapi-cli==0.0.24->-r requirements.txt (line 16))
+51.60   Downloading uvloop-0.22.1-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl.metadata (4.9 kB)
+51.81 Downloading altair-6.0.0-py3-none-any.whl (795 kB)
+52.23    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 795.4/795.4 kB 1.9 MB/s eta 0:00:00
+52.26 Downloading annotated_doc-0.0.4-py3-none-any.whl (5.3 kB)
+52.28 Downloading annotated_types-0.7.0-py3-none-any.whl (13 kB)
+52.31 Downloading anyio-4.12.1-py3-none-any.whl (113 kB)
+52.36    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 113.6/113.6 kB 2.5 MB/s eta 0:00:00
+52.39 Downloading attrs-25.4.0-py3-none-any.whl (67 kB)
+52.41    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 67.6/67.6 kB 3.5 MB/s eta 0:00:00
+52.43 Downloading blinker-1.9.0-py3-none-any.whl (8.5 kB)
+52.46 Downloading cachetools-7.0.2-py3-none-any.whl (13 kB)
+52.48 Downloading certifi-2026.2.25-py3-none-any.whl (153 kB)
+52.55    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 153.7/153.7 kB 2.5 MB/s eta 0:00:00
+52.57 Downloading cffi-2.0.0-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.whl (216 kB)
+52.67    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 216.5/216.5 kB 2.5 MB/s eta 0:00:00
+52.70 Downloading charset_normalizer-3.4.4-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl (147 kB)
+52.76    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 147.3/147.3 kB 2.3 MB/s eta 0:00:00
+52.78 Downloading click-8.3.1-py3-none-any.whl (108 kB)
+52.84    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 108.3/108.3 kB 2.6 MB/s eta 0:00:00
+52.86 Downloading colorama-0.4.6-py2.py3-none-any.whl (25 kB)
+52.89 Downloading dnspython-2.8.0-py3-none-any.whl (331 kB)
+53.02    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 331.1/331.1 kB 2.6 MB/s eta 0:00:00
+53.05 Downloading email_validator-2.3.0-py3-none-any.whl (35 kB)
+53.08 Downloading fastapi-0.135.1-py3-none-any.whl (116 kB)
+53.13    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 117.0/117.0 kB 2.8 MB/s eta 0:00:00
+53.17 Downloading fastapi_cli-0.0.24-py3-none-any.whl (12 kB)
+53.23 Downloading fastapi_cloud_cli-0.14.0-py3-none-any.whl (28 kB)
+53.25 Downloading fastar-0.8.0-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl (765 kB)
+53.93    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 765.0/765.0 kB 1.1 MB/s eta 0:00:00
+53.96 Downloading gitdb-4.0.12-py3-none-any.whl (62 kB)
+54.03    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 62.8/62.8 kB 959.1 kB/s eta 0:00:00
+54.06 Downloading gitpython-3.1.46-py3-none-any.whl (208 kB)
+54.28    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 208.6/208.6 kB 1.0 MB/s eta 0:00:00
+54.31 Downloading h11-0.16.0-py3-none-any.whl (37 kB)
+54.36 Downloading httpcore-1.0.9-py3-none-any.whl (78 kB)
+54.44    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 78.8/78.8 kB 1.1 MB/s eta 0:00:00
+54.48 Downloading httptools-0.7.1-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl (454 kB)
+54.77    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 455.0/455.0 kB 1.6 MB/s eta 0:00:00
+54.80 Downloading httpx-0.28.1-py3-none-any.whl (73 kB)
+54.84    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 73.5/73.5 kB 2.3 MB/s eta 0:00:00
+54.86 Downloading idna-3.11-py3-none-any.whl (71 kB)
+54.90    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 71.0/71.0 kB 1.9 MB/s eta 0:00:00
+54.93 Downloading jinja2-3.1.6-py3-none-any.whl (134 kB)
+54.99    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 134.9/134.9 kB 2.2 MB/s eta 0:00:00
+55.01 Downloading jsonschema-4.26.0-py3-none-any.whl (90 kB)
+55.07    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 90.6/90.6 kB 2.2 MB/s eta 0:00:00
+55.11 Downloading jsonschema_specifications-2025.9.1-py3-none-any.whl (18 kB)
+55.14 Downloading markdown_it_py-4.0.0-py3-none-any.whl (87 kB)
+55.19    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 87.3/87.3 kB 2.0 MB/s eta 0:00:00
+55.22 Downloading markupsafe-3.0.3-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl (24 kB)
+55.26 Downloading mdurl-0.1.2-py3-none-any.whl (10.0 kB)
+55.29 Downloading narwhals-2.17.0-py3-none-any.whl (444 kB)
+55.49    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 444.9/444.9 kB 2.3 MB/s eta 0:00:00
+55.51 Downloading numpy-2.4.2-cp311-cp311-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl (16.0 MB)
+71.58    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 16.0/16.0 MB 728.6 kB/s eta 0:00:00
+71.61 Downloading ollama-0.6.1-py3-none-any.whl (14 kB)
+71.64 Downloading packaging-26.0-py3-none-any.whl (74 kB)
+71.69    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 74.4/74.4 kB 1.9 MB/s eta 0:00:00
+71.72 Downloading pandas-2.3.3-cp311-cp311-manylinux_2_24_aarch64.manylinux_2_28_aarch64.whl (12.2 MB)
+81.68    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 12.2/12.2 MB 1.2 MB/s eta 0:00:00
+81.75 Downloading pillow-12.1.1-cp311-cp311-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl (6.3 MB)
+87.77    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 6.3/6.3 MB 1.1 MB/s eta 0:00:00
+87.79 Downloading protobuf-6.33.5-cp39-abi3-manylinux2014_aarch64.whl (324 kB)
+87.96    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 324.6/324.6 kB 2.0 MB/s eta 0:00:00
+87.99 Downloading pyarrow-23.0.1-cp311-cp311-manylinux_2_28_aarch64.whl (44.5 MB)
+118.2    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 44.5/44.5 MB 2.5 MB/s eta 0:00:00
+118.3 Downloading pycparser-3.0-py3-none-any.whl (48 kB)
+118.3    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 48.2/48.2 kB 9.1 MB/s eta 0:00:00
+118.3 Downloading pydantic-2.12.5-py3-none-any.whl (463 kB)
+118.5    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 463.6/463.6 kB 2.6 MB/s eta 0:00:00
+118.5 Downloading pydantic_extra_types-2.11.0-py3-none-any.whl (74 kB)
+118.5    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 74.3/74.3 kB 3.6 MB/s eta 0:00:00
+118.6 Downloading pydantic_settings-2.13.1-py3-none-any.whl (58 kB)
+118.6    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 58.9/58.9 kB 2.9 MB/s eta 0:00:00
+118.6 Downloading pydantic_core-2.41.5-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl (1.9 MB)
+119.2    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.9/1.9 MB 3.5 MB/s eta 0:00:00
+119.2 Downloading pydeck-0.9.1-py2.py3-none-any.whl (6.9 MB)
+121.4    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 6.9/6.9 MB 3.2 MB/s eta 0:00:00
+121.4 Downloading pygments-2.19.2-py3-none-any.whl (1.2 MB)
+121.9    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.2/1.2 MB 2.4 MB/s eta 0:00:00
+122.0 Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl (229 kB)
+122.1    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 229.9/229.9 kB 2.9 MB/s eta 0:00:00
+122.1 Downloading python_dotenv-1.2.2-py3-none-any.whl (22 kB)
+122.1 Downloading python_multipart-0.0.22-py3-none-any.whl (24 kB)
+122.2 Downloading pytz-2026.1.post1-py2.py3-none-any.whl (510 kB)
+122.6    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 510.5/510.5 kB 1.3 MB/s eta 0:00:00
+122.6 Downloading pyyaml-6.0.3-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl (775 kB)
+124.0    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 775.6/775.6 kB 551.8 kB/s eta 0:00:00
+124.1 Downloading referencing-0.37.0-py3-none-any.whl (26 kB)
+124.2 Downloading requests-2.32.5-py3-none-any.whl (64 kB)
+124.4    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 64.7/64.7 kB 379.3 kB/s eta 0:00:00
+124.4 Downloading rich-14.3.3-py3-none-any.whl (310 kB)
+124.9    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 310.5/310.5 kB 632.9 kB/s eta 0:00:00
+124.9 Downloading rich_toolkit-0.19.7-py3-none-any.whl (32 kB)
+125.0 Downloading rignore-0.7.6-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl (899 kB)
+125.7    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 899.4/899.4 kB 1.3 MB/s eta 0:00:00
+125.7 Downloading rpds_py-0.30.0-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl (389 kB)
+126.1    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 389.9/389.9 kB 1.0 MB/s eta 0:00:00
+126.2 Downloading sentry_sdk-2.54.0-py2.py3-none-any.whl (439 kB)
+126.5    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 439.2/439.2 kB 1.5 MB/s eta 0:00:00
+126.5 Downloading shellingham-1.5.4-py2.py3-none-any.whl (9.8 kB)
+126.5 Downloading six-1.17.0-py2.py3-none-any.whl (11 kB)
+126.5 Downloading smmap-5.0.2-py3-none-any.whl (24 kB)
+126.6 Downloading starlette-0.52.1-py3-none-any.whl (74 kB)
+126.6    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 74.3/74.3 kB 2.4 MB/s eta 0:00:00
+126.6 Downloading streamlit-1.55.0-py3-none-any.whl (9.1 MB)
+133.3    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 9.1/9.1 MB 1.4 MB/s eta 0:00:00
+133.4 Downloading tenacity-9.1.4-py3-none-any.whl (28 kB)
+133.4 Downloading toml-0.10.2-py2.py3-none-any.whl (16 kB)
+133.5 Downloading tornado-6.5.4-cp39-abi3-manylinux_2_17_aarch64.manylinux2014_aarch64.whl (445 kB)
+134.2    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 445.7/445.7 kB 572.8 kB/s eta 0:00:00
+134.3 Downloading tqdm-4.67.3-py3-none-any.whl (78 kB)
+134.4    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 78.4/78.4 kB 801.4 kB/s eta 0:00:00
+134.4 Downloading typer-0.24.1-py3-none-any.whl (56 kB)
+134.5    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 56.1/56.1 kB 930.9 kB/s eta 0:00:00
+134.5 Downloading typing_inspection-0.4.2-py3-none-any.whl (14 kB)
+134.5 Downloading typing_extensions-4.15.0-py3-none-any.whl (44 kB)
+134.6    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 44.6/44.6 kB 929.5 kB/s eta 0:00:00
+134.6 Downloading tzdata-2025.3-py2.py3-none-any.whl (348 kB)
+134.9    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 348.5/348.5 kB 1.1 MB/s eta 0:00:00
+135.0 Downloading urllib3-2.6.3-py3-none-any.whl (131 kB)
+135.1    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 131.6/131.6 kB 1.5 MB/s eta 0:00:00
+135.1 Downloading uvicorn-0.41.0-py3-none-any.whl (68 kB)
+135.1    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 68.8/68.8 kB 1.8 MB/s eta 0:00:00
+135.2 Downloading vosk-0.3.45-py3-none-manylinux2014_aarch64.whl (2.4 MB)
+136.5    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.4/2.4 MB 1.8 MB/s eta 0:00:00
+136.5 Downloading watchdog-6.0.0-py3-none-manylinux2014_aarch64.whl (79 kB)
+136.5    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 79.1/79.1 kB 3.7 MB/s eta 0:00:00
+136.6 Downloading watchfiles-1.1.1-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl (448 kB)
+136.8    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 448.8/448.8 kB 2.1 MB/s eta 0:00:00
+136.8 Downloading websockets-16.0-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl (185 kB)
+136.9    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 185.9/185.9 kB 2.8 MB/s eta 0:00:00
+136.9 Downloading uvloop-0.22.1-cp311-cp311-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl (3.8 MB)
+139.6    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.8/3.8 MB 1.4 MB/s eta 0:00:00
+140.9 Building wheels for collected packages: PyAudio, srt
+141.0   Building wheel for PyAudio (pyproject.toml): started
+141.6   Building wheel for PyAudio (pyproject.toml): finished with status 'error'
+141.7   error: subprocess-exited-with-error
+141.7   
+141.7   × Building wheel for PyAudio (pyproject.toml) did not run successfully.
+141.7   │ exit code: 1
+141.7   ╰─> [23 lines of output]
+141.7       /tmp/pip-build-env-oz3vw3qr/overlay/lib/python3.11/site-packages/setuptools/dist.py:765: SetuptoolsDeprecationWarning: License classifiers are deprecated.
+141.7       !!
+141.7       
+141.7               ********************************************************************************
+141.7               Please consider removing the following classifiers in favor of a SPDX license expression:
+141.7       
+141.7               License :: OSI Approved :: MIT License
+141.7       
+141.7               See https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license for details.
+141.7               ********************************************************************************
+141.7       
+141.7       !!
+141.7         self._finalize_license_expression()
+141.7       running bdist_wheel
+141.7       running build
+141.7       running build_py
+141.7       creating build/lib.linux-aarch64-cpython-311/pyaudio
+141.7       copying src/pyaudio/__init__.py -> build/lib.linux-aarch64-cpython-311/pyaudio
+141.7       running build_ext
+141.7       building 'pyaudio._portaudio' extension
+141.7       creating build/temp.linux-aarch64-cpython-311/src/pyaudio
+141.7       gcc -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -fPIC -I/usr/local/include -I/usr/include -I/usr/local/include/python3.11 -c src/pyaudio/device_api.c -o build/temp.linux-aarch64-cpython-311/src/pyaudio/device_api.o
+141.7       error: command 'gcc' failed: No such file or directory
+141.7       [end of output]
+141.7   
+141.7   note: This error originates from a subprocess, and is likely not a problem with pip.
+141.7   ERROR: Failed building wheel for PyAudio
+141.7   Building wheel for srt (setup.py): started
+142.6   Building wheel for srt (setup.py): finished with status 'done'
+142.6   Created wheel for srt: filename=srt-3.5.3-py3-none-any.whl size=22512 sha256=8f767befd10685a9d86278b863be15e7a23635d6693e74bc7af247f48b5f15bc
+142.6   Stored in directory: /tmp/pip-ephem-wheel-cache-hctc366f/wheels/1f/43/f1/23ee9119497fcb57d9f7046fbf34c6d9027c46a1fa7824cf08
+142.6 Successfully built srt
+142.6 Failed to build PyAudio
+142.6 ERROR: Could not build wheels for PyAudio, which is required to install pyproject.toml-based projects
+142.9 
+142.9 [notice] A new release of pip is available: 24.0 -> 26.0.1
+142.9 [notice] To update, run: pip install --upgrade pip
+------
+failed to solve: process "/bin/sh -c pip install --no-cache-dir -r requirements.txt" did not complete successfully: exit code: 1

@@ -21,12 +21,15 @@ services:
   app:
     build: .
     container_name: heladeria-app
-    restart: always
-    command: streamlit run App/App.py --server.port 8501 --server.address 0.0.0.0
+    command: streamlit run App/App.py --server.address 0.0.0.0
     ports:
       - "8501:8501"
+    environment:
+      - API_URL=http://api:8000
     depends_on:
       - api
+    volumes:
+      - .:/app
     networks:
       - heladeria-net
 
@@ -37,7 +40,6 @@ services:
   voz:
     build: .
     container_name: heladeria-voz
-    restart: always
     command: python Local_agent_voz.py
     depends_on:
       - api
@@ -50,8 +52,9 @@ services:
     devices:
       - /dev/snd:/dev/snd
     environment:
-      - PULSE_RUNTIME_PATH=/run/user/1000/pulse   # Needed for audio on Pi
-    network_mode: host   # Necesario para conectar con Ollama en el host
+      - API_URL=http://localhost:8000
+      - PULSE_RUNTIME_PATH=/run/user/1000/pulse
+    network_mode: host
 
 networks:
   heladeria-net:
