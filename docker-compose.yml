@@ -36,7 +36,18 @@ services:
 
   # ─────────────────────────────────────────────
   # Servicio 3: Agente de Voz (IA + micrófono)
-  # NOTA: Requiere acceso al hardware de audio de la Raspberry Pi
+  #
+  # Acceso al audio de la Raspberry Pi:
+  #   - devices: comparte todos los nodos de /dev/snd
+  #   - group_add: el proceso dentro del contenedor tendrá GID del grupo "audio"
+  #     (necesario para que PyAudio/ALSA puedan abrir los dispositivos)
+  #   - volumes: /proc/asound → información de tarjetas para ALSA
+  #   - ALSA_CARD: índice de la tarjeta de micrófono (ajustar si es necesario)
+  #     0=integrado, 1=ALC236, 2=USB → normalmente el USB mic es 1 en Raspi
+  #
+  # NOTA: network_mode host se usa para que el agente pueda llegar a Ollama
+  # que corre en el host de la Raspberry Pi (no en Docker).
+  # La API se alcanza por localhost:8000 porque está publicada en el host.
   # ─────────────────────────────────────────────
   voz:
     build: .
@@ -46,16 +57,26 @@ services:
     depends_on:
       - api
     volumes:
-      - ./piper:/app/piper               # Binario de Piper (ARM64 en la Raspi)
-      - ./modelo_vosk:/app/modelo_vosk   # Modelo de reconocimiento de voz
+      - ./piper:/app/piper
+      - ./modelo_vosk:/app/modelo_vosk
       - ./voz_es.onnx:/app/voz_es.onnx
       - ./voz_es.onnx.json:/app/voz_es.onnx.json
-    # Acceso al micrófono y altavoz del host (Raspberry Pi)
+      - /proc/asound:/proc/asound:ro          # Info de tarjetas ALSA (solo lectura)
+      - /run/user/1000/pulse:/run/pulse:ro    # Socket PulseAudio del host (si existe)
+    # ── Acceso al hardware de audio ──────────────────────────
     devices:
       - /dev/snd:/dev/snd
+    group_add:
+      - audio                                 # GID del grupo audio del host
+    # ── Variables de entorno ─────────────────────────────────
     environment:
-      - API_URL=http://localhost:8000
-      - PULSE_RUNTIME_PATH=/run/user/1000/pulse
+      - API_URL=http://localhost:8000          # API publicada en el host via network_mode host
+      - OLLAMA_HOST=http://localhost:11434     # Ollama corre en el host
+      - OLLAMA_MODEL=llama3.2
+      - ALSA_CARD=1                           # Índice del micrófono USB en Raspberry Pi
+                                              # Cambiar a 0 si el mic es el integrado
+      - PYTHONUNBUFFERED=1
+    # network_mode host es necesario para alcanzar Ollama y la API en el host
     network_mode: host
 
 networks:
