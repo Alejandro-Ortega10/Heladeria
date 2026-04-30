@@ -129,6 +129,8 @@ def escuchar_cliente():
                     print(f"Leyendo...: {parcial.get('partial')}", end="\r")
     except KeyboardInterrupt:
         pass
+    except Exception as e:
+        print(f"❌ Error durante la captura de audio: {e}")
     finally:
         stream.stop_stream()
         stream.close()
@@ -160,17 +162,21 @@ def decodificar_y_vender(texto_cliente, catalogo_sabores):
     """
 
     print("🧠 Ollama está procesando tu pedido...")
-    respuesta_ia = ollama.chat(
-        model=MODELO,
-        messages=[
-            {"role": "system", "content": mensaje_sistema},
-            {"role": "user",   "content": texto_cliente}
-        ],
-        format="json"
-    )
-
-    texto_json = respuesta_ia["message"]["content"]
-    print(f"🔍 DEBUG IA: {texto_json}")
+    try:
+        cliente_ollama = ollama.Client(host=OLLAMA_HOST)
+        respuesta_ia = cliente_ollama.chat(
+            model=MODELO,
+            messages=[
+                {"role": "system", "content": mensaje_sistema},
+                {"role": "user",   "content": texto_cliente}
+            ],
+            format="json"
+        )
+        texto_json = respuesta_ia["message"]["content"]
+        print(f"🔍 DEBUG IA: {texto_json}")
+    except Exception as e:
+        print(f"❌ Error al conectar con Ollama ({OLLAMA_HOST}): {e}")
+        return "Lo siento, tuve un problema interno de conexión al procesar el pedido. Intenta de nuevo."
 
     try:
         datos_pedido = json.loads(texto_json)
@@ -187,7 +193,11 @@ def decodificar_y_vender(texto_cliente, catalogo_sabores):
         }]
     }
 
-    respuesta_api = requests.post(f"{API_URL}/ventas", json=payload_api)
+    try:
+        respuesta_api = requests.post(f"{API_URL}/ventas", json=payload_api)
+    except Exception as e:
+        print(f"❌ Error al conectar con la API ({API_URL}): {e}")
+        return "Hubo un problema de conexión con el sistema de ventas. Intenta de nuevo."
 
     if respuesta_api.status_code == 200:
         return "¡Excelente elección! Tu pedido ha sido procesado y descontado del inventario."
