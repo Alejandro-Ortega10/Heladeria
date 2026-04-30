@@ -88,33 +88,40 @@ def _encontrar_dispositivo_entrada():
 
 def escuchar_cliente():
     """Captura audio del micrófono y lo convierte a texto de forma offline con Vosk."""
-    reconocedor = KaldiRecognizer(modelo_escucha, 16000)
+    import time
     microfono = pyaudio.PyAudio()
 
     device_index = _encontrar_dispositivo_entrada()
     if device_index is None:
         microfono.terminate()
+        time.sleep(2)
         return ""
 
     try:
+        info = microfono.get_device_info_by_index(device_index)
+        rate = int(info.get('defaultSampleRate', 16000))
+        print(f"🎙️  Usando sample rate: {rate} Hz para el dispositivo {device_index}")
+        
+        reconocedor = KaldiRecognizer(modelo_escucha, rate)
+
         stream = microfono.open(
             format=pyaudio.paInt16,
             channels=1,
-            rate=16000,
+            rate=rate,
             input=True,
             input_device_index=device_index,   # ← CRÍTICO: especificar el dispositivo
             frames_per_buffer=8192
         )
-    except OSError as e:
+    except Exception as e:
         print(f"❌ No se pudo abrir el micrófono (device {device_index}): {e}")
         microfono.terminate()
+        time.sleep(2)
         return ""
 
     print("\n🎤 Escuchando... (Habla ahora)")
-    stream.start_stream()
-
     texto_capturado = ""
     try:
+        stream.start_stream()
         while True:
             data = stream.read(4000, exception_on_overflow=False)
             if reconocedor.AcceptWaveform(data):
@@ -132,8 +139,11 @@ def escuchar_cliente():
     except Exception as e:
         print(f"❌ Error durante la captura de audio: {e}")
     finally:
-        stream.stop_stream()
-        stream.close()
+        try:
+            stream.stop_stream()
+            stream.close()
+        except:
+            pass
         microfono.terminate()
 
     return texto_capturado
