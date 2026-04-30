@@ -73,8 +73,8 @@ services:
       - API_URL=http://localhost:8000          # API publicada en el host via network_mode host
       - OLLAMA_HOST=http://localhost:11434     # Ollama corre en el host
       - OLLAMA_MODEL=llama3.2
-      - ALSA_CARD=1                           # Índice del micrófono USB en Raspberry Pi
-                                              # Cambiar a 0 si el mic es el integrado
+      # - ALSA_CARD=1                           # Índice del micrófono USB en Raspberry Pi
+      #                                         # Cambiar a 0 si el mic es el integrado
       - PYTHONUNBUFFERED=1
     # network_mode host es necesario para alcanzar Ollama y la API en el host
     network_mode: host
