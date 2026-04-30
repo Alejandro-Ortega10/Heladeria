@@ -46,6 +46,21 @@ print("Cargando modelo de escucha Vosk...")
 modelo_escucha = Model("modelo_vosk")
 
 
+def _listar_dispositivos():
+    """Imprime todos los dispositivos de audio disponibles para diagnóstico."""
+    p = pyaudio.PyAudio()
+    print("\n" + "─"*50)
+    print("🔊 DISPOSITIVOS DE AUDIO DISPONIBLES:")
+    for i in range(p.get_device_count()):
+        info = p.get_device_info_by_index(i)
+        tipo = "IN" if info['maxInputChannels'] > 0 else "OUT"
+        print(f"  [{i}] {tipo} | {info['name']} | "
+              f"in:{info['maxInputChannels']} "
+              f"rate:{int(info['defaultSampleRate'])}")
+    print("─"*50 + "\n")
+    p.terminate()
+
+
 def _encontrar_dispositivo_entrada():
     """
     Detecta automáticamente el índice del primer dispositivo de entrada disponible.
@@ -86,6 +101,37 @@ def _encontrar_dispositivo_entrada():
     return elegido
 
 
+def _abrir_stream_con_rate(microfono, device_index):
+    """
+    Intenta abrir el stream de audio con diferentes sample rates.
+    Retorna (stream, rate) o (None, None) si ninguno funciona.
+    """
+    # Primero intentamos con el rate reportado por el dispositivo
+    info = microfono.get_device_info_by_index(device_index)
+    default_rate = int(info.get('defaultSampleRate', 44100))
+
+    # Lista de rates a probar: el nativo del dispositivo primero, luego comunes
+    rates_a_probar = list(dict.fromkeys([default_rate, 44100, 48000, 16000, 22050, 8000]))
+
+    for rate in rates_a_probar:
+        try:
+            stream = microfono.open(
+                format=pyaudio.paInt16,
+                channels=1,
+                rate=rate,
+                input=True,
+                input_device_index=device_index,
+                frames_per_buffer=8192
+            )
+            print(f"✅ Stream de audio abierto a {rate} Hz en dispositivo {device_index}")
+            return stream, rate
+        except Exception as e:
+            print(f"⚠️  No se pudo abrir a {rate} Hz: {e}")
+
+    print(f"❌ No se pudo abrir el micrófono con ningún sample rate conocido.")
+    return None, None
+
+
 def escuchar_cliente():
     """Captura audio del micrófono y lo convierte a texto de forma offline con Vosk."""
     import time
@@ -97,26 +143,13 @@ def escuchar_cliente():
         time.sleep(2)
         return ""
 
-    try:
-        info = microfono.get_device_info_by_index(device_index)
-        rate = int(info.get('defaultSampleRate', 16000))
-        print(f"🎙️  Usando sample rate: {rate} Hz para el dispositivo {device_index}")
-        
-        reconocedor = KaldiRecognizer(modelo_escucha, rate)
-
-        stream = microfono.open(
-            format=pyaudio.paInt16,
-            channels=1,
-            rate=rate,
-            input=True,
-            input_device_index=device_index,   # ← CRÍTICO: especificar el dispositivo
-            frames_per_buffer=8192
-        )
-    except Exception as e:
-        print(f"❌ No se pudo abrir el micrófono (device {device_index}): {e}")
+    stream, rate = _abrir_stream_con_rate(microfono, device_index)
+    if stream is None:
         microfono.terminate()
         time.sleep(2)
         return ""
+
+    reconocedor = KaldiRecognizer(modelo_escucha, rate)
 
     print("\n🎤 Escuchando... (Habla ahora)")
     texto_capturado = ""
@@ -147,6 +180,7 @@ def escuchar_cliente():
         microfono.terminate()
 
     return texto_capturado
+
 
 
 def hablar(texto):
@@ -223,6 +257,7 @@ def decodificar_y_vender(texto_cliente, catalogo_sabores):
 # BUCLE PRINCIPAL
 # ─────────────────────────────────────────────────────────────
 def iniciar_agente():
+    _listar_dispositivos()   # ← Muestra todos los dispositivos al arrancar (útil para diagnóstico)
     print("Conectando con la base de datos de la heladería...")
     try:
         respuesta = requests.get(f"{API_URL}/inventario", timeout=5)
