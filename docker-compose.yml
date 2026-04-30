@@ -73,7 +73,7 @@ services:
       - API_URL=http://localhost:8000          # API publicada en el host via network_mode host
       - OLLAMA_HOST=http://localhost:11434     # Ollama corre en el host
       - OLLAMA_MODEL=llama3.2
-      - ALSA_CARD=1                           # Tarjeta USB mic. Verificar con: arecord -l en el host
+      - ALSA_CARD=3                           # Tarjeta USB mic. Verificar con: arecord -l en el host
       - PYTHONUNBUFFERED=1
     # network_mode host es necesario para alcanzar Ollama y la API en el host
     network_mode: host
